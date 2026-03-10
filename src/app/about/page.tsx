@@ -14,18 +14,24 @@ const values = [
     title: "Inclusion",
     description:
       "Every child deserves the chance to learn to swim, regardless of ability. Our program welcomes children of all backgrounds and skill levels.",
+    iconBg: "bg-ocean/10",
+    iconColor: "text-ocean",
   },
   {
     icon: Shield,
     title: "Safety",
     description:
       "Water safety is at the core of everything we do. Our Red Cross certified instructors ensure every lesson prioritizes the well-being of each participant.",
+    iconBg: "bg-coral/10",
+    iconColor: "text-coral",
   },
   {
     icon: Heart,
     title: "Community",
     description:
       "We believe in the power of community. Swim for Life brings together families, volunteers, and local organizations to support our mission.",
+    iconBg: "bg-sand",
+    iconColor: "text-amber-600",
   },
 ];
 
@@ -38,14 +44,14 @@ export default function AboutPage() {
       />
 
       {/* Mission Section */}
-      <section className="py-20 md:py-24 bg-white">
+      <section className="py-20 md:py-24 bg-sky">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="OUR STORY"
             heading="How It All Started"
             centered
           />
-          <div className="mt-8 space-y-4 text-slate-600 text-base md:text-lg leading-relaxed">
+          <div className="mt-8 space-y-4 text-stone-600 text-base md:text-lg leading-relaxed">
             <p>
               While organizing a Swim for Understanding Meet with Best Buddies
               International, we learned of the need for water safety lessons
@@ -69,11 +75,13 @@ export default function AboutPage() {
       </section>
 
       {/* Values Section */}
-      <section className="py-20 md:py-24 bg-slate-50">
+      <section className="py-20 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="WHAT WE STAND FOR"
             heading="Our Core Values"
+            accentWord="Values"
+            accentColor="text-coral"
             centered
           />
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -82,15 +90,17 @@ export default function AboutPage() {
               return (
                 <div
                   key={value.title}
-                  className="bg-white rounded-xl shadow-lg p-8 text-center"
+                  className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow p-8 text-center border border-ocean/5"
                 >
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-blue-50 mb-6">
-                    <Icon className="h-7 w-7 text-primary" />
+                  <div
+                    className={`inline-flex items-center justify-center w-14 h-14 rounded-xl ${value.iconBg} mb-6`}
+                  >
+                    <Icon className={`h-7 w-7 ${value.iconColor}`} />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-800">
+                  <h3 className="font-display text-xl font-bold text-deep">
                     {value.title}
                   </h3>
-                  <p className="mt-3 text-slate-600 text-sm leading-relaxed">
+                  <p className="mt-3 text-stone-600 text-sm leading-relaxed">
                     {value.description}
                   </p>
                 </div>
@@ -101,14 +111,14 @@ export default function AboutPage() {
       </section>
 
       {/* Credentials Section */}
-      <section className="py-20 md:py-24 bg-white">
+      <section className="py-20 md:py-24 bg-sky">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <SectionHeading
             eyebrow="CREDENTIALS"
             heading="Certified & Trusted"
             centered
           />
-          <p className="mt-6 text-slate-600 text-base md:text-lg leading-relaxed">
+          <p className="mt-6 text-stone-600 text-base md:text-lg leading-relaxed">
             All Swim for Life coaches are American Red Cross Certified Water
             Safety Instructors (WSI) and Certified Lifeguards. Our program is
             connected to Best Buddies International and is a registered 501(c)(3)

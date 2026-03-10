@@ -7,5 +7,22 @@ html {
 }
 
 body {
-  @apply bg-white text-slate-800 antialiased;
+  @apply bg-sky text-deep antialiased;
+}
+
+/* Gradient utilities */
+.gradient-ocean {
+  background: linear-gradient(135deg, #164E63 0%, #0891B2 100%);
+}
+
+.gradient-ocean-deep {
+  background: linear-gradient(135deg, #164E63 0%, #155E75 50%, #0E7490 100%);
+}
+
+.gradient-warm {
+  background: linear-gradient(135deg, #F97316 0%, #FB923C 100%);
+}
+
+.gradient-hero {
+  background: linear-gradient(160deg, #0C4A6E 0%, #164E63 30%, #0E7490 70%, #0891B2 100%);
 }

@@ -3,7 +3,8 @@
     "allow": [
       "Bash(npx create-next-app@latest swimsforlife --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm)",
       "Bash(npm install)",
-      "mcp__Claude_Preview__preview_start"
+      "mcp__Claude_Preview__preview_start",
+      "WebFetch(domain:girlswhocode.com)"
     ]
   }
 }

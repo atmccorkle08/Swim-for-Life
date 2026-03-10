@@ -438,7 +438,14 @@ The following are explicitly excluded from all phases:
 
 **Deliverable**: Enhanced engagement features that make the site a living hub for the community, not just a static information page.
 
+### Phase 4: Supabase Migration & Automation
+**Scope**: Introduce Supabase (PostgreSQL) as the project database. Migrate registration storage from Google Sheets API to Supabase. Migrate donor wall from static JSON to Supabase. Migrate fundraising progress bar from static config to Supabase. Update Stripe webhook to auto-insert donors and auto-update campaign totals. Optional Google Sheets sync for coach familiarity.
+
+**Estimated Claude Code sessions**: 1
+
+**Deliverable**: A fully automated backend where registrations, donations, donor recognition, and fundraising progress are all managed through a real database with zero manual data management required.
+
 ---
 
-*Document version: 1.0*
-*Last updated: February 27, 2026*
+*Document version: 1.1*
+*Last updated: March 2, 2026*
