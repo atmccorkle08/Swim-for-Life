@@ -10,13 +10,13 @@ export default function AnnouncementBar() {
   if (dismissed) return null;
 
   return (
-    <div className="bg-navy-light text-white text-sm py-2 px-4 relative">
+    <div className="bg-coral text-white text-sm py-2.5 px-4 relative">
       <div className="max-w-7xl mx-auto text-center">
-        <p>{siteConfig.announcement}</p>
+        <p className="font-medium">{siteConfig.announcement}</p>
       </div>
       <button
         onClick={() => setDismissed(true)}
-        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
+        className="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors"
         aria-label="Dismiss announcement"
       >
         <X className="h-4 w-4" />

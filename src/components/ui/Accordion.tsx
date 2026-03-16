@@ -26,7 +26,11 @@ export default function Accordion({ items }: AccordionProps) {
         return (
           <div
             key={index}
-            className="border border-slate-200 rounded-xl overflow-hidden"
+            className={`border rounded-2xl overflow-hidden transition-colors duration-200 ${
+              isOpen
+                ? "border-ocean/30 bg-white shadow-md"
+                : "border-ocean/15 bg-white"
+            }`}
           >
             <button
               type="button"
@@ -37,12 +41,12 @@ export default function Accordion({ items }: AccordionProps) {
                   toggle(index);
                 }
               }}
-              className="w-full flex items-center justify-between px-6 py-4 text-left font-semibold text-slate-800 hover:bg-slate-50 transition-colors"
+              className="w-full flex items-center justify-between px-6 py-4 text-left font-semibold text-deep hover:bg-sky/50 transition-colors"
               aria-expanded={isOpen}
             >
-              <span>{item.question}</span>
+              <span className="font-display">{item.question}</span>
               <ChevronDown
-                className={`h-5 w-5 text-slate-400 transition-transform duration-200 flex-shrink-0 ml-4 ${
+                className={`h-5 w-5 text-ocean transition-transform duration-200 flex-shrink-0 ml-4 ${
                   isOpen ? "rotate-180" : ""
                 }`}
               />
@@ -52,7 +56,7 @@ export default function Accordion({ items }: AccordionProps) {
                 isOpen ? "max-h-96" : "max-h-0"
               }`}
             >
-              <div className="px-6 pb-4 text-slate-600 leading-relaxed">
+              <div className="px-6 pb-4 text-stone-600 leading-relaxed">
                 {item.answer}
               </div>
             </div>

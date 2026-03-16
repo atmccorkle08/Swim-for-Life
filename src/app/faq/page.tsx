@@ -15,7 +15,7 @@ export default function FaqPage() {
         subtitle="Everything you need to know about Swim for Life."
       />
 
-      <section className="py-20 md:py-24 bg-white">
+      <section className="py-20 md:py-24 bg-sky">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <Accordion items={faqItems} />
         </div>
