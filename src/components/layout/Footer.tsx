@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MapPin, Phone, Mail, Instagram, Youtube } from "lucide-react";
 import { siteConfig } from "@/data/config";
+import NewsletterForm from "@/components/forms/NewsletterForm";
 
 function FooterLogo() {
   return (
@@ -37,7 +38,7 @@ export default function Footer() {
     <footer className="bg-navy text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Column 1: Logo + Tagline + Social */}
+          {/* Column 1: Logo + Tagline + Social + Newsletter */}
           <div>
             <FooterLogo />
             <p className="mt-4 text-slate-400 text-sm leading-relaxed">
@@ -63,6 +64,10 @@ export default function Footer() {
                 <Youtube className="h-5 w-5" />
               </a>
             </div>
+            <div className="mt-6">
+              <p className="text-sm text-slate-400 mb-2">Stay updated</p>
+              <NewsletterForm variant="compact" />
+            </div>
           </div>
 
           {/* Column 2: Quick Links */}
@@ -79,6 +84,11 @@ export default function Footer() {
               <li>
                 <Link href="/programs" className="hover:text-white transition-colors">
                   Programs
+                </Link>
+              </li>
+              <li>
+                <Link href="/gallery" className="hover:text-white transition-colors">
+                  Gallery
                 </Link>
               </li>
               <li>
@@ -136,7 +146,7 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-slate-800">
           <p className="text-sm text-slate-500 text-center">
             Swim for Life is a registered 501(c)(3) non-profit. All donations
-            are tax-deductible. | &copy; {new Date().getFullYear()} Swim for
+            are tax-deductible. | © {new Date().getFullYear()} Swim for
             Life. All rights reserved.
           </p>
         </div>

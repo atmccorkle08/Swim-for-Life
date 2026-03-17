@@ -3,7 +3,14 @@
     "allow": [
       "Bash(npx create-next-app@latest swimsforlife --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm)",
       "Bash(npm install)",
-      "mcp__Claude_Preview__preview_start"
+      "mcp__Claude_Preview__preview_start",
+      "Bash(python3 -c:*)",
+      "Bash(cd /tmp)",
+      "Bash(gh repo:*)",
+      "Bash(claude mcp:*)",
+      "mcp__magic__21st_magic_component_inspiration",
+      "Bash(npm install:*)",
+      "Bash(npx next:*)"
     ]
   }
 }
