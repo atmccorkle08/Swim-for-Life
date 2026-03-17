@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 interface ButtonProps {
   children: React.ReactNode;
   href?: string;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "coral" | "ghost" | "outline-coral";
   showArrow?: boolean;
   icon?: React.ReactNode;
   type?: "button" | "submit";
@@ -25,12 +25,19 @@ export default function Button({
   className = "",
 }: ButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 font-semibold transition-colors duration-200 text-base";
+    "inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 font-semibold transition-all duration-200 text-base shadow-sm hover:shadow-md";
 
   const variants = {
-    primary: "bg-primary text-white hover:bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed",
+    primary:
+      "bg-ocean text-white hover:bg-ocean-dark disabled:opacity-50 disabled:cursor-not-allowed",
     secondary:
-      "bg-white text-slate-800 border border-slate-200 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed",
+      "bg-white text-deep border border-ocean/20 hover:bg-sky disabled:opacity-50 disabled:cursor-not-allowed",
+    coral:
+      "bg-coral text-white hover:bg-coral-dark disabled:opacity-50 disabled:cursor-not-allowed",
+    ghost:
+      "bg-transparent text-ocean hover:bg-ocean/10 shadow-none hover:shadow-none disabled:opacity-50 disabled:cursor-not-allowed",
+    "outline-coral":
+      "border-2 border-coral text-coral hover:bg-coral hover:text-white shadow-none disabled:opacity-50 disabled:cursor-not-allowed",
   };
 
   const styles = `${baseStyles} ${variants[variant]} ${className}`;

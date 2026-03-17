@@ -9,7 +9,7 @@ import { siteConfig } from "@/data/config";
 function Logo() {
   return (
     <Link href="/" className="flex items-center gap-2">
-      <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center">
+      <div className="w-9 h-9 bg-ocean rounded-lg flex items-center justify-center">
         <svg
           width="22"
           height="22"
@@ -31,7 +31,9 @@ function Logo() {
           />
         </svg>
       </div>
-      <span className="text-lg font-bold text-slate-800">Swim For Life</span>
+      <span className="text-lg font-display font-bold text-deep">
+        Swim For Life
+      </span>
     </Link>
   );
 }
@@ -54,31 +56,37 @@ export default function Navbar() {
   return (
     <nav
       className={`sticky top-0 z-50 bg-white transition-shadow duration-200 ${
-        scrolled ? "shadow-md" : ""
+        scrolled ? "shadow-md border-b border-ocean/10" : ""
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Logo />
 
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-8">
+          {/* Desktop nav + CTA buttons */}
+          <div className="hidden md:flex items-center gap-5">
             {siteConfig.navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 className={`text-sm font-medium transition-colors ${
                   pathname === link.href
-                    ? "text-primary border-b-2 border-primary pb-0.5"
-                    : "text-slate-600 hover:text-slate-800"
+                    ? "text-ocean border-b-2 border-ocean pb-0.5"
+                    : "text-stone-600 hover:text-deep"
                 }`}
               >
                 {link.label}
               </Link>
             ))}
             <Link
+              href="/register"
+              className="inline-flex items-center gap-1.5 bg-ocean text-white rounded-full px-5 py-2 text-sm font-semibold hover:bg-ocean-dark transition-colors shadow-sm hover:shadow-md"
+            >
+              Register
+            </Link>
+            <Link
               href="#"
-              className="inline-flex items-center gap-1.5 bg-primary text-white rounded-full px-6 py-2 text-sm font-semibold hover:bg-primary-hover transition-colors"
+              className="inline-flex items-center gap-1.5 bg-coral text-white rounded-full px-5 py-2 text-sm font-semibold hover:bg-coral-dark transition-colors shadow-sm hover:shadow-md"
             >
               <Heart className="h-4 w-4" />
               Donate
@@ -87,7 +95,7 @@ export default function Navbar() {
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden text-slate-600 hover:text-slate-800"
+            className="md:hidden text-stone-600 hover:text-deep"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
@@ -109,7 +117,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={`text-lg font-medium ${
-                  pathname === link.href ? "text-primary" : "text-slate-800"
+                  pathname === link.href ? "text-ocean" : "text-deep"
                 }`}
               >
                 {link.label}
@@ -117,13 +125,13 @@ export default function Navbar() {
             ))}
             <Link
               href="/register"
-              className="text-lg font-medium text-slate-800"
+              className="text-lg font-medium text-deep"
             >
               Register
             </Link>
             <Link
               href="#"
-              className="inline-flex items-center gap-2 bg-primary text-white rounded-full px-8 py-3 font-semibold hover:bg-primary-hover transition-colors mt-4"
+              className="inline-flex items-center gap-2 bg-coral text-white rounded-full px-8 py-3 font-semibold hover:bg-coral-dark transition-colors mt-4 shadow-sm"
             >
               <Heart className="h-4 w-4" />
               Donate

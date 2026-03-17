@@ -16,33 +16,33 @@ export default function ContactPage() {
         subtitle="Have questions? We'd love to hear from you."
       />
 
-      <section className="py-20 md:py-24 bg-white">
+      <section className="py-20 md:py-24 bg-sky">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Coach Contact Cards */}
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-slate-800">
+              <h2 className="font-display text-2xl font-bold text-deep">
                 Our Coaches
               </h2>
               {coaches.map((coach) => (
                 <div
                   key={coach.name}
-                  className="bg-slate-50 rounded-xl p-6"
+                  className="bg-white rounded-2xl p-6 border border-ocean/10 shadow-sm"
                 >
-                  <h3 className="text-lg font-bold text-slate-800">
+                  <h3 className="font-display text-lg font-bold text-deep">
                     {coach.name}
                   </h3>
                   <div className="mt-3 space-y-2">
                     <a
                       href={`mailto:${coach.email}`}
-                      className="flex items-center gap-2 text-slate-600 hover:text-primary transition-colors"
+                      className="flex items-center gap-2 text-stone-600 hover:text-ocean transition-colors"
                     >
                       <Mail className="h-4 w-4" />
                       {coach.email}
                     </a>
                     <a
                       href={`tel:${coach.phone.replace(/[^+\d]/g, "")}`}
-                      className="flex items-center gap-2 text-slate-600 hover:text-primary transition-colors"
+                      className="flex items-center gap-2 text-stone-600 hover:text-ocean transition-colors"
                     >
                       <Phone className="h-4 w-4" />
                       {coach.phone}
@@ -54,10 +54,10 @@ export default function ContactPage() {
 
             {/* Google Maps */}
             <div>
-              <h2 className="text-2xl font-bold text-slate-800 mb-6">
+              <h2 className="font-display text-2xl font-bold text-deep mb-6">
                 Our Location
               </h2>
-              <div className="rounded-xl overflow-hidden shadow-lg">
+              <div className="rounded-2xl overflow-hidden shadow-md border border-ocean/10">
                 <iframe
                   src={siteConfig.location.mapsUrl}
                   width="100%"
@@ -69,7 +69,7 @@ export default function ContactPage() {
                   title="North Palm Beach Country Club location"
                 />
               </div>
-              <p className="mt-4 text-slate-600 text-sm">
+              <p className="mt-4 text-stone-600 text-sm">
                 {siteConfig.location.name} — {siteConfig.location.address}
               </p>
             </div>
@@ -77,13 +77,15 @@ export default function ContactPage() {
 
           {/* Social Links */}
           <div className="mt-16 text-center">
-            <h2 className="text-2xl font-bold text-slate-800">Follow Us</h2>
+            <h2 className="font-display text-2xl font-bold text-deep">
+              Follow Us
+            </h2>
             <div className="mt-6 flex items-center justify-center gap-6">
               <a
                 href={siteConfig.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-slate-600 hover:text-primary transition-colors"
+                className="flex items-center gap-2 text-stone-600 hover:text-ocean transition-colors"
                 aria-label="Follow us on Instagram"
               >
                 <Instagram className="h-6 w-6" />
@@ -93,7 +95,7 @@ export default function ContactPage() {
                 href={siteConfig.social.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-slate-600 hover:text-primary transition-colors"
+                className="flex items-center gap-2 text-stone-600 hover:text-ocean transition-colors"
                 aria-label="Subscribe on YouTube"
               >
                 <Youtube className="h-6 w-6" />

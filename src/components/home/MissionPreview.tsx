@@ -3,16 +3,18 @@ import Button from "@/components/ui/Button";
 
 export default function MissionPreview() {
   return (
-    <section className="py-20 md:py-24 bg-white">
+    <section className="py-20 md:py-24 bg-sky">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
           <SectionHeading
             eyebrow="WHO WE ARE"
             heading="Spreading Ripples of Inclusion"
+            accentWord="Inclusion"
+            accentColor="text-coral"
             centered
           />
 
-          <div className="mt-8 space-y-4 text-slate-600 text-base md:text-lg leading-relaxed">
+          <div className="mt-8 space-y-4 text-stone-600 text-base md:text-lg leading-relaxed">
             <p>
               While organizing a Swim for Understanding Meet with Best Buddies
               International, we learned of the need for water safety lessons
