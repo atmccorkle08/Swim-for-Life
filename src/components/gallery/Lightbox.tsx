@@ -22,12 +22,12 @@ export default function Lightbox({
   isOpen,
   onClose,
 }: LightboxProps) {
-  if (!isOpen) return null;
-
   const slides = photos.map((photo) => ({
     src: photo.src,
     alt: photo.alt,
     title: photo.caption,
+    width: photo.width,
+    height: photo.height,
   }));
 
   return (
@@ -37,10 +37,11 @@ export default function Lightbox({
       index={initialIndex}
       slides={slides}
       plugins={[Captions, Counter, Zoom]}
-      captions={{ showToggle: false }}
       styles={{
-        container: { backgroundColor: "rgba(15, 23, 42, 0.95)" },
+        container: { backgroundColor: "rgba(22, 78, 99, 0.95)" },
       }}
+      carousel={{ finite: false }}
+      animation={{ swipe: 250 }}
     />
   );
 }

@@ -1,11 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { GalleryPhoto, GalleryVideo, GalleryCategory } from "@/data/gallery";
+import {
+  GalleryPhoto,
+  GalleryVideo,
+  GalleryCategory,
+} from "@/data/gallery";
 import CategoryFilter from "./CategoryFilter";
 import PhotoGrid from "./PhotoGrid";
 import VideoGrid from "./VideoGrid";
 import SectionHeading from "@/components/ui/SectionHeading";
+import WaveDivider from "@/components/ui/WaveDivider";
 import Button from "@/components/ui/Button";
 
 interface GalleryPageClientProps {
@@ -34,7 +39,7 @@ export default function GalleryPageClient({
   return (
     <>
       {/* Category Filter */}
-      <section className="py-8 bg-white">
+      <div className="bg-sky py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <CategoryFilter
             categories={categories}
@@ -42,40 +47,52 @@ export default function GalleryPageClient({
             onCategoryChange={setActiveCategory}
           />
         </div>
-      </section>
+      </div>
 
       {/* Photo Gallery */}
-      <section className="py-16 bg-white">
+      <section className="bg-sky py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading eyebrow="PHOTOS" heading="Our Gallery" centered />
-          <div className="mt-10">
+          <SectionHeading
+            eyebrow="PHOTOS"
+            heading="Our Gallery"
+            accentWord="Gallery"
+            accentColor="text-coral"
+            centered
+          />
+          <div className="mt-12">
             <PhotoGrid photos={filteredPhotos} />
           </div>
         </div>
       </section>
 
+      <WaveDivider variant="gentle" fill="#164E63" bgColor="#ECFEFF" />
+
       {/* Video Section */}
-      <section className="bg-navy py-20 md:py-24">
+      <section className="bg-deep py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="VIDEOS"
             heading="Watch Our Swimmers in Action"
+            accentWord="Action"
+            accentColor="text-coral"
             dark
             centered
           />
-          <div className="mt-10">
+          <div className="mt-12">
             <VideoGrid videos={filteredVideos} />
           </div>
         </div>
       </section>
 
+      <WaveDivider variant="gentle" fill="#ECFEFF" bgColor="#164E63" />
+
       {/* CTA Section */}
-      <section className="py-20 md:py-24 bg-white">
+      <section className="bg-sky py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-800">
+          <h2 className="font-display text-3xl md:text-5xl font-bold text-deep">
             Want to See Your Child Here?
           </h2>
-          <p className="mt-4 text-base md:text-lg text-slate-600 max-w-xl mx-auto">
+          <p className="mt-4 text-stone-600 text-base md:text-lg max-w-xl mx-auto">
             Register for free swim lessons and join our inclusive aquatic
             community.
           </p>
@@ -83,7 +100,7 @@ export default function GalleryPageClient({
             <Button href="/register" variant="primary" showArrow>
               Register Now
             </Button>
-            <Button href="/donate" variant="secondary">
+            <Button href="#" variant="coral">
               Support Our Mission
             </Button>
           </div>
