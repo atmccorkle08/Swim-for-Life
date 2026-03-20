@@ -4,10 +4,10 @@ export const registrationSchema = z
   .object({
     childName: z.string().min(1, "Child's name is required"),
     childAge: z
-      .number({ invalid_type_error: "Age must be a number" })
-      .int("Age must be a whole number")
-      .min(3, "Minimum age is 3")
-      .max(18, "Maximum age is 18"),
+      .number({ error: "Age must be a number" })
+      .int({ error: "Age must be a whole number" })
+      .min(3, { error: "Minimum age is 3" })
+      .max(18, { error: "Maximum age is 18" }),
     parentName: z.string().min(1, "Parent/guardian name is required"),
     parentEmail: z
       .string()
@@ -22,16 +22,16 @@ export const registrationSchema = z
       ),
     swimExperience: z.enum(
       ["No experience", "Beginner", "Some experience"],
-      { errorMap: () => ({ message: "Please select a swim experience level" }) }
+      { error: "Please select a swim experience level" }
     ),
     hasSpecialNeeds: z.boolean(),
     specialNeedsDetails: z.string().optional(),
     sessionPreference: z.string().optional(),
     photoConsent: z.literal(true, {
-      errorMap: () => ({ message: "Photo release consent is required" }),
+      error: "Photo release consent is required",
     }),
     liabilityWaiver: z.literal(true, {
-      errorMap: () => ({ message: "Liability waiver acknowledgment is required" }),
+      error: "Liability waiver acknowledgment is required",
     }),
   })
   .refine(

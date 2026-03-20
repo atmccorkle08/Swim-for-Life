@@ -20,10 +20,16 @@ export async function POST(request: Request) {
 
     const result = contactSchema.safeParse(body);
     if (!result.success) {
+      const fieldErrors: Record<string, string[]> = {};
+      for (const issue of result.error.issues) {
+        const key = issue.path.join(".");
+        if (!fieldErrors[key]) fieldErrors[key] = [];
+        fieldErrors[key].push(issue.message);
+      }
       return NextResponse.json(
         {
           success: false,
-          errors: result.error.flatten().fieldErrors,
+          errors: fieldErrors,
         },
         { status: 400 }
       );
