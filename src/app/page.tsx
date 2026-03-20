@@ -4,7 +4,7 @@ import MissionPreview from "@/components/home/MissionPreview";
 import ServicesOverview from "@/components/home/ServicesOverview";
 import CoachSpotlights from "@/components/home/CoachSpotlights";
 import FundraisingPlaceholder from "@/components/home/FundraisingPlaceholder";
-import NewsletterPlaceholder from "@/components/home/NewsletterPlaceholder";
+import NewsletterCTA from "@/components/home/NewsletterCTA";
 
 export default function HomePage() {
   return (
@@ -15,7 +15,7 @@ export default function HomePage() {
       <ServicesOverview />
       <CoachSpotlights />
       <FundraisingPlaceholder />
-      <NewsletterPlaceholder />
+      <NewsletterCTA />
     </>
   );
 }

@@ -1,10 +1,14 @@
 import { Resend } from "resend";
 import type { RegistrationData } from "./validations";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResend() {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) throw new Error('RESEND_API_KEY is not set');
+  return new Resend(key);
+}
 
 export async function sendConfirmationEmail(data: RegistrationData) {
-  await resend.emails.send({
+  await getResend().emails.send({
     from: "Swim for Life <noreply@swimsforlife.com>",
     to: data.parentEmail,
     subject: "Registration Confirmed — Swim for Life",
@@ -58,7 +62,7 @@ export async function sendCoachNotification(data: RegistrationData) {
     timeZone: "America/New_York",
   });
 
-  await resend.emails.send({
+  await getResend().emails.send({
     from: "Swim for Life <noreply@swimsforlife.com>",
     to: ["atmccorkle08@gmail.com", "bapeters_1@icloud.com"],
     subject: `New Registration: ${data.childName}`,

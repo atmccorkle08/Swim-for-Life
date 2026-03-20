@@ -54,4 +54,9 @@ export const faqItems: FaqItem[] = [
     answer:
       "You can donate on our Support page (coming soon), spread the word on social media, or contact us about volunteer opportunities.",
   },
+  {
+    question: "Can I see photos from previous sessions?",
+    answer:
+      "Yes! Visit our Gallery page to see photos and videos from past sessions. We only share photos of children whose parents have provided photo release consent.",
+  },
 ];
