@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { registrationSchema } from "@/lib/validations";
+import { insertRegistration } from "@/lib/db";
 import { appendRegistration } from "@/lib/google-sheets";
 import { sendConfirmationEmail, sendCoachNotification } from "@/lib/resend";
 
@@ -21,11 +22,11 @@ export async function POST(request: Request) {
 
     const data = result.data;
 
-    // Write to Google Sheets (critical operation)
+    // Insert into Supabase (primary — must succeed)
     try {
-      await appendRegistration(data);
+      await insertRegistration(data);
     } catch (error) {
-      console.error("Google Sheets error:", error);
+      console.error("Supabase registration error:", error);
       return NextResponse.json(
         {
           success: false,
@@ -46,6 +47,13 @@ export async function POST(request: Request) {
       await sendCoachNotification(data);
     } catch (error) {
       console.error("Coach notification email error:", error);
+    }
+
+    // Sync to Google Sheets (non-critical backup for coaches)
+    try {
+      await appendRegistration(data);
+    } catch (error) {
+      console.error("Google Sheets sync error:", error);
     }
 
     return NextResponse.json({ success: true });
