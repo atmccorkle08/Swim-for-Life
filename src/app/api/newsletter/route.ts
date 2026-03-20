@@ -49,7 +49,7 @@ export async function POST(request: Request) {
     // Handle Zod validation errors
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { success: false, message: error.errors[0].message },
+        { success: false, message: error.issues[0].message },
         { status: 400 }
       );
     }
