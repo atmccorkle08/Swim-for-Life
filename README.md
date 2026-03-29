@@ -10,7 +10,7 @@ A modern website for Swim for Life, a 501(c)(3) non-profit providing free adapti
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
 - **Email**: Resend
-- **Google Sheets**: googleapis
+- **Newsletter**: Brevo
 
 ## Getting Started
 
@@ -29,18 +29,8 @@ npm install
 Copy the example env file and fill in your values:
 
 ```bash
-cp .env.local.example .env.local
+.env.local
 ```
-
-Required variables:
-
-| Variable | Description |
-|---|---|
-| `GOOGLE_SHEETS_PRIVATE_KEY` | Google service account private key (with newlines as `\n`) |
-| `GOOGLE_SHEETS_CLIENT_EMAIL` | Google service account email |
-| `GOOGLE_SHEETS_SPREADSHEET_ID` | Target Google Sheet ID |
-| `RESEND_API_KEY` | Resend API key for transactional emails |
-| `NEXT_PUBLIC_SITE_URL` | Public site URL (e.g., `https://swimsforlife.com`) |
 
 ### Development
 
