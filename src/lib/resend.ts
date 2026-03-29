@@ -64,7 +64,7 @@ export async function sendCoachNotification(data: RegistrationData) {
 
   await getResend().emails.send({
     from: "Swim for Life <noreply@swimsforlife.com>",
-    to: ["atmccorkle08@gmail.com", "bapeters_1@icloud.com"],
+    to: ["atmccorkle08@gmail.com"],
     subject: `New Registration: ${data.childName}`,
     html: `
       <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: 0 auto;">
