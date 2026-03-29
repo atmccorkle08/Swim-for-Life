@@ -4,7 +4,25 @@
       "Bash(npx create-next-app@latest swimsforlife --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm)",
       "Bash(npm install)",
       "mcp__Claude_Preview__preview_start",
-      "WebFetch(domain:girlswhocode.com)"
+      "WebFetch(domain:girlswhocode.com)",
+      "Bash(npx next:*)",
+      "Bash(npm install:*)",
+      "Bash(\"/c/Users/Aidan McCorkle/OneDrive/Desktop/Swim:*)",
+      "Bash(npm run:*)",
+      "WebFetch(domain:claude.ai)",
+      "Bash(npx eslint:*)",
+      "Bash(node node_modules/.bin/next lint)",
+      "Bash(node ./node_modules/next/dist/bin/next lint)",
+      "Bash(node -e \"const lock = require\\(''./package-lock.json''\\); console.log\\(''eslint:'', lock.packages[''node_modules/eslint'']?.version\\);\")",
+      "Bash(gh pr:*)",
+      "Bash(where gh:*)",
+      "WebFetch(domain:zod.dev)",
+      "WebFetch(domain:v4.zod.dev)",
+      "Bash(grep '\"\"zod\"\"' package.json)",
+      "Bash(grep '\"\"@hookform/resolvers\"\"' package.json)",
+      "Bash(npx tsc:*)",
+      "WebFetch(domain:www.emailtooltester.com)",
+      "Bash(grep -E \"\\\\.tsx$\")"
     ]
   }
 }

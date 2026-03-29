@@ -13,6 +13,9 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
+  icons: {
+    icon: "/favicon.png",
+  },
   title: {
     default: "Swim for Life — Free Adaptive Swim Lessons",
     template: "%s | Swim for Life",

@@ -24,36 +24,15 @@ Everything from Phase 1 remains. Add:
 
 The existing site follows this design language. All Phase 2 additions must match it exactly:
 
-### Colors
-```
-Primary Blue:         #2563EB  (Tailwind blue-600)
-Primary Blue Hover:   #1D4ED8  (Tailwind blue-700)
-Dark Navy BG:         #0F172A  (Tailwind slate-900)
-Dark Navy Lighter:    #1E293B  (Tailwind slate-800)
-Text on Dark:         #FFFFFF
-Text on Light:        #1E293B  (Tailwind slate-800)
-Muted Text on Dark:   #94A3B8  (Tailwind slate-400)
-Accent/Label Text:    #2563EB  (Primary Blue)
-Success Green:        #22C55E  (Tailwind green-500) — for progress bar fill and success states
-```
 
-### Consistent Patterns
-- **Section rhythm**: Alternating light ↔ dark navy backgrounds
-- **Eyebrow labels**: text-sm uppercase tracking-widest font-semibold, Primary Blue
-- **Section headings**: text-3xl md:text-4xl font-bold
-- **Buttons**: Primary = blue-600 filled pill, white text. Secondary = white filled pill, dark text.
-- **Cards**: rounded-xl with shadow-lg on light BGs, bg-slate-800 on dark BGs
-- **Content width**: max-w-7xl mx-auto with px-4 sm:px-6 lg:px-8
-- **Section padding**: py-20 md:py-24
-- **Animations**: Fade-in-on-scroll via Framer Motion (match existing sections)
 
 ### Phase 2 Section Background Assignments
-- **Donation page hero**: Dark navy
-- **Donation tiers selection**: Light (white/slate-50)
-- **501(c)(3) trust banner**: Dark navy
-- **Thank-you page**: Light
-- **Fundraising progress bar (homepage)**: Dark navy (replaces existing placeholder)
-- **Donor wall (homepage)**: Light
+- **Donation page hero**
+- **Donation tiers selection**
+- **501(c)(3) trust banner**
+- **Thank-you page**
+- **Fundraising progress bar (homepage)**
+- **Donor wall (homepage)**
 
 ---
 

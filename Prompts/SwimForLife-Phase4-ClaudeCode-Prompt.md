@@ -4,7 +4,7 @@
 
 This is **Phase 4** of a 4-phase website rebuild for **Swim for Life** (swimsforlife.com), a 501(c)(3) non-profit in North Palm Beach, FL that provides free adaptive swim lessons to children of all abilities, specializing in those with intellectual and developmental disabilities (IDD).
 
-**Phases 1–3 are complete.** The site is a Next.js 14+ App Router project with TypeScript, Tailwind CSS, Framer Motion, and Lucide React. It is deployed on Vercel. Here's what currently exists:
+**Phases 1–3 are complete.** The site is a Next.js 14+ App Router project with TypeScript, and Tailwind CSS. It is deployed on Vercel. Here's what currently exists:
 
 - **Phase 1 (Core)**: Homepage, About, Programs, Register, FAQ, Contact pages. Registration form submits to Google Sheets API via a service account. Confirmation emails to parents and notification emails to coaches via Resend.
 - **Phase 2 (Donations)**: Stripe donation page with preset/custom amounts, one-time and recurring giving, Stripe Checkout redirect. Thank-you page. Fundraising progress bar on homepage reads from a static config in `src/data/config.ts`. Donor wall on homepage reads from a static `src/data/donors.json` file. Stripe webhook route exists but only logs events.
@@ -174,7 +174,7 @@ GOOGLE_SHEETS_CLIENT_EMAIL=...
 GOOGLE_SHEETS_SPREADSHEET_ID=...
 ```
 
-Update `.env.local.example` to reflect all current variables with clear comments about which are required vs optional.
+Update `.env.local.` to reflect all current variables with clear comments about which are required vs optional.
 
 ---
 
