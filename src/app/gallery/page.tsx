@@ -1,11 +1,11 @@
 import { Metadata } from "next";
 import GalleryPageClient from "@/components/gallery/GalleryPageClient";
 import WaveDivider from "@/components/ui/WaveDivider";
-import {
-  galleryPhotos,
-  galleryVideos,
-  galleryCategories,
-} from "@/data/gallery";
+import { galleryVideos, galleryCategories } from "@/data/gallery";
+import { getGalleryImages } from "@/lib/getGalleryImages";
+
+// Always render at request time — gallery images come from the database
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Gallery",
@@ -13,7 +13,9 @@ export const metadata: Metadata = {
     "Browse photos and videos from Swim for Life lessons and events.",
 };
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+  const photos = await getGalleryImages();
+
   return (
     <>
       {/* Hero */}
@@ -39,7 +41,7 @@ export default function GalleryPage() {
 
       {/* Gallery Content */}
       <GalleryPageClient
-        photos={galleryPhotos}
+        photos={photos}
         videos={galleryVideos}
         categories={galleryCategories}
       />
