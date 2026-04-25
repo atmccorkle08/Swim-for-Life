@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Heart, Menu, X } from "lucide-react";
@@ -9,28 +10,14 @@ import { siteConfig } from "@/data/config";
 function Logo() {
   return (
     <Link href="/" className="flex items-center gap-2">
-      <div className="w-9 h-9 bg-ocean rounded-lg flex items-center justify-center">
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M2 12C2 12 5 9 8 9C11 9 13 12 16 12C19 12 22 9 22 9"
-            stroke="white"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-          />
-          <path
-            d="M2 17C2 17 5 14 8 14C11 14 13 17 16 17C19 17 22 14 22 14"
-            stroke="white"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-          />
-        </svg>
-      </div>
+      <Image
+        src="/images/sfl-logo.svg"
+        alt="Swim For Life"
+        width={44}
+        height={44}
+        className="rounded"
+        priority
+      />
       <span className="text-lg font-display font-bold text-deep">
         Swim For Life
       </span>
