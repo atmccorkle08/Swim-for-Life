@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ChevronDown, Heart } from "lucide-react";
 import Button from "@/components/ui/Button";
@@ -8,11 +9,22 @@ import WaveDivider from "@/components/ui/WaveDivider";
 export default function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Gradient background */}
-      <div className="absolute inset-0 gradient-hero" />
+      {/* Background photo */}
+      <Image
+        src="/images/hero-pool.jpg"
+        alt="Swim for Life coaches and a young swimmer at the pool"
+        fill
+        priority
+        quality={95}
+        className="object-cover"
+        sizes="100vw"
+      />
+
+      {/* Dark gradient overlay for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-deep/45 via-deep/30 to-deep/55" />
 
       {/* Decorative blobs */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[15%] right-[10%] w-80 h-80 rounded-full bg-ocean-light/10 blur-3xl" />
         <div className="absolute bottom-[20%] left-[5%] w-64 h-64 rounded-full bg-coral/8 blur-3xl" />
         <div className="absolute top-[40%] left-[30%] w-48 h-48 rounded-full bg-ocean/10 blur-3xl" />
