@@ -82,10 +82,12 @@ export default function ServicesOverview() {
             {/* Right: Image */}
             <div className="relative h-80 lg:h-[28rem] rounded-2xl overflow-hidden ring-4 ring-ocean/20">
               <Image
-                src="/images/pool-atmosphere.svg"
-                alt="Children learning to swim in a pool with instructors"
+                src="/images/programs-pool.jpg"
+                alt="Swim for Life coaches with students by the pool"
                 fill
-                className="object-cover"
+                quality={95}
+                className="object-cover object-[center_20%]"
+                sizes="(min-width: 1024px) 50vw, 100vw"
               />
             </div>
           </div>
