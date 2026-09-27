@@ -155,7 +155,7 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-cyan-800">
           <p className="text-sm text-cyan-300 text-center">
             Swim for Life is a registered 501(c)(3) non-profit. All donations
-            are tax-deductible. | © {new Date().getFullYear()} Swim for
+            are tax-deductible to the extent allowed by law. | © {new Date().getFullYear()} Swim for
             Life. All rights reserved.
           </p>
         </div>
