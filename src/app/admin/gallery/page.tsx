@@ -3,6 +3,7 @@
 import { useState, useEffect, FormEvent } from "react";
 import Image from "next/image";
 import { GalleryPhoto, galleryCategories } from "@/data/gallery";
+import BulkUpload from "@/components/admin/BulkUpload";
 
 export default function AdminGalleryPage() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -15,17 +16,27 @@ export default function AdminGalleryPage() {
   const [file, setFile] = useState<File | null>(null);
   const [alt, setAlt] = useState("");
   const [caption, setCaption] = useState("");
-  const [category, setCategory] = useState("summer-2025");
+  const [category, setCategory] = useState("summer-2026");
   const [sortOrder, setSortOrder] = useState(0);
 
   const uploadCategories = galleryCategories.filter((c) => c.slug !== "all");
 
-  function handleLogin() {
-    if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-      setAuthenticated(true);
-      setMessage("");
-    } else {
-      setMessage("Incorrect password");
+  async function handleLogin() {
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+      if (res.ok) {
+        setAuthenticated(true);
+        setPassword("");
+        setMessage("");
+      } else {
+        setMessage("Incorrect password");
+      }
+    } catch {
+      setMessage("Login failed — check console for details.");
     }
   }
 
@@ -137,7 +148,9 @@ export default function AdminGalleryPage() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") void handleLogin();
+            }}
             placeholder="Enter admin password"
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
           />
@@ -292,6 +305,9 @@ export default function AdminGalleryPage() {
             </button>
           </form>
         </section>
+
+        {/* ── Bulk Upload with AI ── */}
+        <BulkUpload onPublished={fetchImages} />
 
         {/* ── Image List ── */}
         <section className="bg-white p-6 rounded-xl shadow-sm">

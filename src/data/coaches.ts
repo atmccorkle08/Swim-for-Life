@@ -9,7 +9,7 @@ export interface Coach {
 export const coaches: Coach[] = [
   {
     name: "Aidan McCorkle",
-    bio: "Active member at the North Palm Beach Swim Team with 6 years of competitive swimming experience. Red Cross Certified Water Safety Instructor (WSI) and Certified Lifeguard. Co-founder of Swim for Life.",
+    bio: "Active member at the North Palm Beach Swim Team with 6 years of competitive swimming experience. Red Cross Certified Water Safety Instructor (WSI) and Certified Lifeguard. Founder of Swim for Life.",
     photo: "/images/coach-aidan.jpg",
     email: "atmccorkle08@gmail.com",
     phone: "(917)-821-3667",

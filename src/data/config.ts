@@ -13,7 +13,7 @@ export const siteConfig = {
     instagram: "https://www.instagram.com/swimsforlife/",
     youtube: "https://www.youtube.com/@swimforlife123",
   },
-  announcement: "Now Enrolling for Summer 2026",
+  announcement: "Now Enrolling for 2027",
   navLinks: [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },

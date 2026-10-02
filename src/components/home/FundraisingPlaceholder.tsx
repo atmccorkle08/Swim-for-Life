@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Heart } from "lucide-react";
 
 export default function FundraisingPlaceholder() {
@@ -18,13 +19,13 @@ export default function FundraisingPlaceholder() {
           community.
         </p>
         <div className="mt-8">
-          <a
-            href="#"
+          <Link
+            href="/donate"
             className="inline-flex items-center gap-2 bg-white text-coral rounded-full px-8 py-3 font-semibold hover:bg-sand-light transition-colors shadow-md hover:shadow-lg"
           >
             <Heart className="h-4 w-4" />
             Donate
-          </a>
+          </Link>
         </div>
       </div>
     </section>

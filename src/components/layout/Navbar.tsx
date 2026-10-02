@@ -72,7 +72,7 @@ export default function Navbar() {
               Register
             </Link>
             <Link
-              href="#"
+              href="/donate"
               className="inline-flex items-center gap-1.5 bg-coral text-white rounded-full px-5 py-2 text-sm font-semibold hover:bg-coral-dark transition-colors shadow-sm hover:shadow-md"
             >
               <Heart className="h-4 w-4" />
@@ -117,7 +117,7 @@ export default function Navbar() {
               Register
             </Link>
             <Link
-              href="#"
+              href="/donate"
               className="inline-flex items-center gap-2 bg-coral text-white rounded-full px-8 py-3 font-semibold hover:bg-coral-dark transition-colors mt-4 shadow-sm"
             >
               <Heart className="h-4 w-4" />

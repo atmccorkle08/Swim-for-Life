@@ -47,12 +47,12 @@ export const faqItems: FaqItem[] = [
   {
     question: "Is Swim for Life a registered non-profit?",
     answer:
-      "Yes, Swim for Life is a registered 501(c)(3) organization. All donations are tax-deductible.",
+      "Yes, Swim for Life is a registered 501(c)(3) organization. Donations are tax-deductible to the extent allowed by law.",
   },
   {
     question: "How can I support Swim for Life?",
     answer:
-      "You can donate on our Support page (coming soon), spread the word on social media, or contact us about volunteer opportunities.",
+      "You can make a one-time or monthly donation on our Donate page (swimsforlife.com/donate), spread the word on social media, or contact us about volunteer opportunities.",
   },
   {
     question: "Can I see photos from previous sessions?",
