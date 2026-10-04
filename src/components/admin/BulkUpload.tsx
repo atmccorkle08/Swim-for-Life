@@ -59,6 +59,8 @@ interface BulkItem {
   quality: number | null;
   flags: PhotoFlag[];
   include: boolean;
+  /** gallery_images row id once published, so the photo can be deleted from here. */
+  publishedId: string | null;
 }
 
 /** Non-render data kept per item (original file + encoded blobs). */
@@ -392,6 +394,7 @@ export default function BulkUpload({ onPublished }: BulkUploadProps) {
         quality: null,
         flags: [],
         include: false,
+        publishedId: null,
       });
     }
 
@@ -443,6 +446,37 @@ export default function BulkUpload({ onPublished }: BulkUploadProps) {
     if (!item || IN_FLIGHT.has(item.status)) return;
     releaseItem(id, item.previewUrl);
     setItems((prev) => prev.filter((i) => i.id !== id));
+  }
+
+  /** Deletes an already-published photo from the gallery (not just from this list). */
+  async function deletePublished(id: string) {
+    const item = items.find((i) => i.id === id);
+    if (!item || item.status !== "published") return;
+    if (!item.publishedId) {
+      setNotice({
+        kind: "error",
+        text: "This photo's gallery ID wasn't captured. Delete it from the Current Images list below.",
+      });
+      return;
+    }
+    if (!confirm("Delete this photo from the gallery? This cannot be undone.")) return;
+
+    setNotice(null);
+    updateItem(id, { error: null });
+    try {
+      const res = await fetch("/api/admin/gallery", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: item.publishedId }),
+      });
+      // 404 means it is already gone, which is the outcome we wanted.
+      if (!res.ok && res.status !== 404) throw new Error(await readError(res, "Delete failed"));
+      removeItem(id);
+      setNotice({ kind: "info", text: "Photo deleted from the gallery." });
+      await onPublished();
+    } catch (err) {
+      updateItem(id, { error: err instanceof Error ? err.message : "Delete failed." });
+    }
   }
 
   function clearFinished() {
@@ -497,8 +531,9 @@ export default function BulkUpload({ onPublished }: BulkUploadProps) {
 
         const res = await fetch("/api/admin/gallery", { method: "POST", body: formData });
         if (!res.ok) throw new Error(await readError(res, "Upload failed"));
+        const row = (await res.json().catch(() => null)) as { id?: string } | null;
         ok++;
-        updateItem(item.id, { status: "published", include: false });
+        updateItem(item.id, { status: "published", include: false, publishedId: row?.id ?? null });
       } catch (err) {
         failed++;
         updateItem(item.id, {
@@ -647,7 +682,9 @@ export default function BulkUpload({ onPublished }: BulkUploadProps) {
                 disabled={publishing}
                 onChange={(patch) => updateItem(item.id, patch)}
                 onRetry={() => retry(item.id)}
-                onRemove={() => removeItem(item.id)}
+                onRemove={() =>
+                  item.status === "published" ? void deletePublished(item.id) : removeItem(item.id)
+                }
               />
             ))}
           </div>
@@ -815,7 +852,7 @@ function BulkItemCard({ item, disabled, onChange, onRetry, onRemove }: BulkItemC
                 disabled={disabled}
                 className="text-sm text-red-600 hover:text-red-800 disabled:opacity-40 transition-colors"
               >
-                Remove
+                {item.status === "published" ? "Delete from gallery" : "Remove"}
               </button>
             )}
           </div>

@@ -5,10 +5,28 @@ import Image from "next/image";
 import { GalleryPhoto, galleryCategories } from "@/data/gallery";
 import BulkUpload from "@/components/admin/BulkUpload";
 
+type AdminPhoto = GalleryPhoto & { sort_order?: number };
+
+const inputClass =
+  "w-full px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white";
+
+async function readError(res: Response, fallback: string): Promise<string> {
+  if (res.status === 401) return "Session expired. Reload the page and log in again.";
+  const data = (await res.json().catch(() => null)) as { error?: unknown } | null;
+  return typeof data?.error === "string" ? data.error : `${fallback} (${res.status})`;
+}
+
 export default function AdminGalleryPage() {
   const [authenticated, setAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
-  const [images, setImages] = useState<GalleryPhoto[]>([]);
+  const [images, setImages] = useState<AdminPhoto[]>([]);
+
+  // Inline edit state for an already-published image
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editAlt, setEditAlt] = useState("");
+  const [editCaption, setEditCaption] = useState("");
+  const [editCategory, setEditCategory] = useState("");
+  const [editSortOrder, setEditSortOrder] = useState(0);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -110,7 +128,7 @@ export default function AdminGalleryPage() {
     }
   }
 
-  async function handleDelete(id: string, src: string) {
+  async function handleDelete(id: string) {
     if (!confirm("Delete this image? This cannot be undone.")) return;
 
     setLoading(true);
@@ -119,18 +137,64 @@ export default function AdminGalleryPage() {
       const res = await fetch("/api/admin/gallery", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, src }),
+        body: JSON.stringify({ id }),
       });
 
       if (res.ok) {
+        if (editingId === id) setEditingId(null);
         setMessage("Image deleted.");
         await fetchImages();
       } else {
-        const data = await res.json();
-        setMessage("Error: " + data.error);
+        setMessage("Error: " + (await readError(res, "Delete failed")));
       }
     } catch {
       setMessage("Delete failed — check console for details.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function startEdit(img: AdminPhoto) {
+    setEditingId(img.id);
+    setEditAlt(img.alt);
+    setEditCaption(img.caption ?? "");
+    setEditCategory(img.category);
+    setEditSortOrder(img.sort_order ?? 0);
+    setMessage("");
+  }
+
+  async function handleSaveEdit(e: FormEvent) {
+    e.preventDefault();
+    if (!editingId) return;
+    if (!editAlt.trim()) {
+      setMessage("Error: Alt text is required.");
+      return;
+    }
+
+    setLoading(true);
+    setMessage("");
+    try {
+      const res = await fetch("/api/admin/gallery", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: editingId,
+          alt: editAlt,
+          caption: editCaption,
+          category: editCategory,
+          sort_order: editSortOrder,
+        }),
+      });
+
+      if (res.ok) {
+        setEditingId(null);
+        setMessage("Image updated.");
+        await fetchImages();
+      } else {
+        setMessage("Error: " + (await readError(res, "Update failed")));
+      }
+    } catch {
+      setMessage("Update failed. Check console for details.");
     } finally {
       setLoading(false);
     }
@@ -325,45 +389,172 @@ export default function AdminGalleryPage() {
             </p>
           ) : (
             <div className="space-y-3">
-              {images.map((img) => (
-                <div
-                  key={img.id}
-                  className="flex items-center gap-4 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  <div className="relative w-20 h-16 flex-shrink-0 rounded-md overflow-hidden bg-gray-100">
-                    <Image
-                      src={img.src}
-                      alt={img.alt}
-                      fill
-                      className="object-cover"
-                      sizes="80px"
-                    />
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">
-                      {img.alt}
-                    </p>
-                    <p className="text-xs text-gray-500 mt-0.5">
-                      {img.category} &middot; {img.width}&times;{img.height}px
-                      {img.caption && (
-                        <span className="italic">
-                          {" "}
-                          &middot; &ldquo;{img.caption}&rdquo;
-                        </span>
-                      )}
-                    </p>
-                  </div>
-
-                  <button
-                    onClick={() => handleDelete(img.id, img.src)}
-                    disabled={loading}
-                    className="flex-shrink-0 text-red-600 hover:text-red-800 text-sm font-medium disabled:opacity-40 transition-colors"
+              {images.map((img) =>
+                editingId === img.id ? (
+                  <form
+                    key={img.id}
+                    onSubmit={handleSaveEdit}
+                    className="p-3 border border-blue-300 rounded-lg bg-blue-50/30 space-y-3"
                   >
-                    Delete
-                  </button>
-                </div>
-              ))}
+                    <div className="flex items-center gap-4">
+                      <div className="relative w-20 h-16 flex-shrink-0 rounded-md overflow-hidden bg-gray-100">
+                        <Image
+                          src={img.src}
+                          alt={img.alt}
+                          fill
+                          className="object-cover"
+                          sizes="80px"
+                        />
+                      </div>
+                      <p className="text-sm font-medium text-gray-700">
+                        Editing photo ({img.width}&times;{img.height}px)
+                      </p>
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor={`edit-alt-${img.id}`}
+                        className="block text-xs font-medium text-gray-700 mb-0.5"
+                      >
+                        Alt Text *
+                      </label>
+                      <input
+                        id={`edit-alt-${img.id}`}
+                        type="text"
+                        value={editAlt}
+                        maxLength={300}
+                        required
+                        onChange={(e) => setEditAlt(e.target.value)}
+                        className={inputClass}
+                      />
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor={`edit-caption-${img.id}`}
+                        className="block text-xs font-medium text-gray-700 mb-0.5"
+                      >
+                        Caption
+                      </label>
+                      <input
+                        id={`edit-caption-${img.id}`}
+                        type="text"
+                        value={editCaption}
+                        maxLength={500}
+                        onChange={(e) => setEditCaption(e.target.value)}
+                        className={inputClass}
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label
+                          htmlFor={`edit-category-${img.id}`}
+                          className="block text-xs font-medium text-gray-700 mb-0.5"
+                        >
+                          Category
+                        </label>
+                        <select
+                          id={`edit-category-${img.id}`}
+                          value={editCategory}
+                          onChange={(e) => setEditCategory(e.target.value)}
+                          className={inputClass}
+                        >
+                          {uploadCategories.map((cat) => (
+                            <option key={cat.slug} value={cat.slug}>
+                              {cat.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label
+                          htmlFor={`edit-sort-${img.id}`}
+                          className="block text-xs font-medium text-gray-700 mb-0.5"
+                        >
+                          Sort Order
+                        </label>
+                        <input
+                          id={`edit-sort-${img.id}`}
+                          type="number"
+                          value={editSortOrder}
+                          onChange={(e) =>
+                            setEditSortOrder(parseInt(e.target.value, 10) || 0)
+                          }
+                          className={inputClass}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <button
+                        type="submit"
+                        disabled={loading}
+                        className="bg-blue-600 text-white px-4 py-1.5 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium disabled:opacity-50"
+                      >
+                        {loading ? "Saving\u2026" : "Save"}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setEditingId(null)}
+                        disabled={loading}
+                        className="text-sm text-gray-600 hover:text-gray-900 disabled:opacity-40"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                ) : (
+                  <div
+                    key={img.id}
+                    className="flex items-center gap-4 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                  >
+                    <div className="relative w-20 h-16 flex-shrink-0 rounded-md overflow-hidden bg-gray-100">
+                      <Image
+                        src={img.src}
+                        alt={img.alt}
+                        fill
+                        className="object-cover"
+                        sizes="80px"
+                      />
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">
+                        {img.alt}
+                      </p>
+                      <p className="text-xs text-gray-500 mt-0.5">
+                        {img.category} &middot; {img.width}&times;{img.height}px
+                        {img.caption && (
+                          <span className="italic">
+                            {" "}
+                            &middot; &ldquo;{img.caption}&rdquo;
+                          </span>
+                        )}
+                      </p>
+                    </div>
+
+                    <div className="flex flex-shrink-0 items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => startEdit(img)}
+                        disabled={loading}
+                        className="text-blue-600 hover:text-blue-800 text-sm font-medium disabled:opacity-40 transition-colors"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(img.id)}
+                        disabled={loading}
+                        className="text-red-600 hover:text-red-800 text-sm font-medium disabled:opacity-40 transition-colors"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                )
+              )}
             </div>
           )}
         </section>

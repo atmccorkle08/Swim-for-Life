@@ -136,20 +136,104 @@ export async function POST(request: NextRequest) {
   }
 }
 
+export async function PATCH(request: NextRequest) {
+  if (!isAdminRequest(request)) return unauthorized();
+  try {
+    let body: Record<string, unknown>;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ error: 'Invalid body' }, { status: 400 });
+    }
+
+    const { id } = body;
+    if (!id || typeof id !== 'string') {
+      return NextResponse.json({ error: 'Missing id' }, { status: 400 });
+    }
+
+    const updates: Record<string, string | number | null> = {};
+
+    if ('alt' in body) {
+      const alt = typeof body.alt === 'string' ? body.alt.trim() : '';
+      if (!alt) return NextResponse.json({ error: 'Alt text is required' }, { status: 400 });
+      if (alt.length > 300) return NextResponse.json({ error: 'Alt text too long' }, { status: 400 });
+      updates.alt = alt;
+    }
+    if ('caption' in body) {
+      const caption = typeof body.caption === 'string' ? body.caption.trim() : '';
+      if (caption.length > 500) return NextResponse.json({ error: 'Caption too long' }, { status: 400 });
+      updates.caption = caption || null;
+    }
+    if ('category' in body) {
+      if (typeof body.category !== 'string' || !ALLOWED_CATEGORIES.has(body.category)) {
+        return NextResponse.json({ error: 'Invalid category' }, { status: 400 });
+      }
+      updates.category = body.category;
+    }
+    if ('sort_order' in body) {
+      if (typeof body.sort_order !== 'number' || !Number.isInteger(body.sort_order)) {
+        return NextResponse.json({ error: 'Invalid sort order' }, { status: 400 });
+      }
+      updates.sort_order = body.sort_order;
+    }
+
+    if (Object.keys(updates).length === 0) {
+      return NextResponse.json({ error: 'Nothing to update' }, { status: 400 });
+    }
+
+    const supabase = getSupabase();
+    const { data, error } = await supabase
+      .from('gallery_images')
+      .update(updates)
+      .eq('id', id)
+      .select('id, src, alt, caption, category, width, height, sort_order')
+      .maybeSingle();
+
+    if (error) {
+      return NextResponse.json({ error: `Update failed: ${error.message}` }, { status: 500 });
+    }
+    if (!data) {
+      return NextResponse.json({ error: 'Image not found' }, { status: 404 });
+    }
+
+    return NextResponse.json(data);
+  } catch (err) {
+    console.error('Gallery update error:', err);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
+
 export async function DELETE(request: NextRequest) {
   if (!isAdminRequest(request)) return unauthorized();
   try {
-    const { id, src } = await request.json();
+    let id: unknown;
+    try {
+      ({ id } = await request.json());
+    } catch {
+      return NextResponse.json({ error: 'Invalid body' }, { status: 400 });
+    }
 
-    if (!id || !src || typeof id !== 'string' || typeof src !== 'string') {
-      return NextResponse.json({ error: 'Missing id or src' }, { status: 400 });
+    if (!id || typeof id !== 'string') {
+      return NextResponse.json({ error: 'Missing id' }, { status: 400 });
     }
 
     const supabase = getSupabase();
 
-    const storagePath = src.split('/storage/v1/object/public/gallery/').pop();
-    if (storagePath && storagePath !== src) {
-      await supabase.storage.from('gallery').remove([storagePath]);
+    // Look the file up server-side rather than trusting a client-supplied path.
+    const { data: row, error: lookupError } = await supabase
+      .from('gallery_images')
+      .select('id, src')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (lookupError) {
+      return NextResponse.json(
+        { error: `Delete failed: ${lookupError.message}` },
+        { status: 500 }
+      );
+    }
+    if (!row) {
+      return NextResponse.json({ error: 'Image not found' }, { status: 404 });
     }
 
     const { error: dbError } = await supabase
@@ -162,6 +246,15 @@ export async function DELETE(request: NextRequest) {
         { error: `Delete failed: ${dbError.message}` },
         { status: 500 }
       );
+    }
+
+    // Remove the file after the row so a failure never leaves a broken gallery entry.
+    const storagePath = row.src.split('/storage/v1/object/public/gallery/').pop();
+    if (storagePath && storagePath !== row.src) {
+      const { error: storageError } = await supabase.storage
+        .from('gallery')
+        .remove([decodeURIComponent(storagePath)]);
+      if (storageError) console.error('Gallery storage cleanup failed:', storageError.message);
     }
 
     return NextResponse.json({ success: true });
