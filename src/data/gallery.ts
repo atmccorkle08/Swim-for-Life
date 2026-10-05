@@ -27,7 +27,7 @@ export const galleryCategories: GalleryCategory[] = [
   { slug: "all", label: "All", order: 0 },
   { slug: "summer-2026", label: "Summer 2026", order: 1 },
   { slug: "summer-2025", label: "Summer 2025", order: 2 },
-  { slug: "summer-2024", label: "Spring 2025", order: 3 },
+  { slug: "summer-2024", label: "Summer 2024", order: 3 },
   { slug: "events", label: "Events", order: 4 },
 ];
 
